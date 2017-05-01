@@ -7,8 +7,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -33,26 +33,36 @@ public class MainActivity extends AppCompatActivity {
 
     ArrayList<HashMap<String, String>> contactList;
     private String myURL = "https://api.themoviedb.org/3/discover/movie?api_key=9d78e326bf184dcfaf30197ee99b2d8e&primary_release_year=2017";
+    private Button like, dislike;
+    ImageView poster;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-      /*  new Runnable() {
-            @Override
-            public void run() {
-                String link = "https://images-na.ssl-images-amazon.com/images/M/MV5BMTc5MzQxNTU3N15BMl5BanBnXkFtZTcwODE2MzIzMQ@@._V1_SX300.jpg";
-                ImageView imageView = (ImageView) findViewById(R.id.myPoster);
-                Picasso.with(MainActivity.this)
-                        *//*.load(R.drawable.testimg)*//*
-                        .load(link)
-                        .into(imageView);
-            }
-        }.run();*/
+
         contactList = new ArrayList<>();
         lv = (ListView) findViewById(R.id.list);
+        poster = (ImageView) findViewById(R.id.myPoster);
 
+        like = (Button) findViewById(R.id.likeButton);
+        dislike = (Button) findViewById(R.id.dislikeButton);
         new GetContacts().execute();
+    }
+
+    public void likeAction(View view) {
+
+        Toast.makeText(this, "movie Liked", Toast.LENGTH_SHORT).show();
+        like.setVisibility(View.INVISIBLE);
+        dislike.setVisibility(View.INVISIBLE);
+        poster.setVisibility(View.INVISIBLE);
+    }
+
+    public void dislikeAction(View view) {
+        Toast.makeText(this, "Dislike", Toast.LENGTH_SHORT).show();
+        like.setVisibility(View.INVISIBLE);
+        dislike.setVisibility(View.INVISIBLE);
+        poster.setVisibility(View.INVISIBLE);
     }
 
     private class GetContacts extends AsyncTask<Void, Void, Void> {
@@ -167,8 +177,8 @@ public class MainActivity extends AppCompatActivity {
 
                     contactList.add(contact);
 */
-                    JSONObject json =new JSONObject(jsonStr);
-                    for(int i =0;i<5; i++) {
+                    JSONObject json = new JSONObject(jsonStr);
+                    for (int i = 0; i < 5; i++) {
                         JSONArray results = json.getJSONArray("results");
                         String poster = results.getJSONObject(i).getString("poster_path");
                         String title = results.getJSONObject(i).getString("original_title");
@@ -228,16 +238,19 @@ public class MainActivity extends AppCompatActivity {
                     new Runnable() {
                         @Override
                         public void run() {
-                            ImageView imageView = (ImageView) findViewById(R.id.myPoster);
                             Picasso.with(MainActivity.this)
-                                    .load(imgBody+ myMovieList.get(position).getPoster())
+                                    .load(imgBody + myMovieList.get(position).getPoster())
                                     .resize(250, 250)
                                     .centerCrop()
-                                    .into(imageView);
+                                    .into((ImageView) findViewById(R.id.myPoster));
                         }
                     }.run();
 
+                    findViewById(R.id.myPoster).setVisibility(View.VISIBLE);
+                    like.setVisibility(View.VISIBLE);
+                    dislike.setVisibility(View.VISIBLE);
                 }
+
             });
         }
     }

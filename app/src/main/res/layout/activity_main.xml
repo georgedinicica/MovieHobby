@@ -18,26 +18,27 @@
         android:layout_width="200dp"
         android:layout_height="220dp"/>
     <Button
+        android:onClick="likeAction"
         android:text="like"
         android:id="@+id/likeButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="50dp"
-        android:layout_marginStart="-100dp"
-        android:layout_alignStart="@+id/myPoster"
-       />
+        android:visibility="invisible"
+
+        android:layout_marginEnd="17dp"
+        android:layout_below="@+id/list"
+        android:layout_toStartOf="@+id/myPoster"
+        android:layout_marginTop="85dp" />
 
     <Button
+        android:onClick="dislikeAction"
         android:text="dislike"
         android:id="@+id/dislikeButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="50dp"
-        android:layout_marginStart="200dp"
-        android:layout_alignEnd="@+id/myPoster"
-        />
+        android:layout_marginStart="10dp"
+        android:visibility="invisible"
+        android:layout_alignBottom="@+id/likeButton"
+        android:layout_toEndOf="@+id/myPoster"
+         />
 </RelativeLayout>
