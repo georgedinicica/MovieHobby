@@ -178,7 +178,7 @@ public class MainActivity extends AppCompatActivity {
                     contactList.add(contact);
 */
                     JSONObject json = new JSONObject(jsonStr);
-                    for (int i = 0; i < 5; i++) {
+                    for (int i = 0; i < json.getJSONArray("results").length(); i++) {
                         JSONArray results = json.getJSONArray("results");
                         String poster = results.getJSONObject(i).getString("poster_path");
                         String title = results.getJSONObject(i).getString("original_title");
