@@ -182,11 +182,15 @@ public class MainActivity extends AppCompatActivity {
                         JSONArray results = json.getJSONArray("results");
                         String poster = results.getJSONObject(i).getString("poster_path");
                         String title = results.getJSONObject(i).getString("original_title");
+                        String releaseDate=results.getJSONObject(i).getString("release_date");
+                        String plot=results.getJSONObject(i).getString("overview");
+
 
                         HashMap<String, String> contact = new HashMap<>();
                         contact.put("original_title", title);
+                        contact.put("release_date",releaseDate);
                         contact.put("poster_path", poster);
-
+                        contact.put("overview","PLOT:\n"+plot);
                         contactList.add(contact);
 
                         MyMovie movie = new MyMovie(title, poster);
@@ -223,8 +227,8 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
             ListAdapter adapter = new SimpleAdapter(MainActivity.this, contactList,
-                    R.layout.list_item, new String[]{"original_title", "poster_path"},
-                    new int[]{R.id.title, R.id.poster});
+                    R.layout.list_item, new String[]{"original_title","release_date","overview", "poster_path"},
+                    new int[]{R.id.title,R.id.releaseDate,R.id.plot, R.id.poster});
             ArrayAdapter<Movie> movieAdapter = new ArrayAdapter<>(MainActivity.this,
                     android.R.layout.simple_list_item_1,
                     movieList);
@@ -233,7 +237,6 @@ public class MainActivity extends AppCompatActivity {
             lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-                    //   Toast.makeText(MainActivity.this, contactList.get(position).toString(), Toast.LENGTH_LONG).show();
 
                     new Runnable() {
                         @Override
