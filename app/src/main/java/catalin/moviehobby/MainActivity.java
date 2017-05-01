@@ -176,7 +176,7 @@ public class MainActivity extends AppCompatActivity {
                     myMovieList.add(movie);
 
                     contactList.add(contact);
-*/
+*//**/
                     JSONObject json = new JSONObject(jsonStr);
                     for (int i = 0; i < json.getJSONArray("results").length(); i++) {
                         JSONArray results = json.getJSONArray("results");
