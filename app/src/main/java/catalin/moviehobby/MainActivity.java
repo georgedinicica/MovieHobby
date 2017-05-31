@@ -73,81 +73,9 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
-       /* @Override
-        protected Void doInBackground(Void... arg0) {
-            HttpHandler sh = new HttpHandler();
-            // Making a request to url and getting response
-//            String url = "http://api.androidhive.info/contacts/";
-//            String jsonStr = sh.makeServiceCall(url);
-            String myUrl = "http://www.omdbapi.com/?t=london";
-            String jsonStr = sh.makeServiceCall(myUrl);
-            Log.e(TAG, "Response from url: " + jsonStr);
-            if (jsonStr != null) {
-                try {
-                    JSONObject jsonObj = new JSONObject(jsonStr);
-
-                    // Getting JSON Array node
-                    JSONArray contacts = jsonObj.getJSONArray("contacts");
-
-                    // looping through All Contacts
-                    for (int i = 0; i < contacts.length(); i++) {
-                        JSONObject c = contacts.getJSONObject(i);
-                        String id = c.getString("id");
-                        String name = c.getString("name");
-                        String email = c.getString("Title");
-                        String address = c.getString("address");
-                        String gender = c.getString("gender");
-
-                        // Phone node is JSON Object
-                        JSONObject phone = c.getJSONObject("phone");
-                        String mobile = phone.getString("mobile");
-                        String home = phone.getString("home");
-                        String office = phone.getString("office");
-
-                        // tmp hash map for single contact
-                        HashMap<String, String> contact = new HashMap<>();
-
-                        // adding each child node to HashMap key => value
-                        contact.put("id", id);
-                        contact.put("name", name);
-                        contact.put("Title", email);
-                        contact.put("mobile", mobile);
-
-                        // adding contact to contact list
-                        contactList.add(contact);
-                    }
-                } catch (final JSONException e) {
-                    Log.e(TAG, "Json parsing error: " + e.getMessage());
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(getApplicationContext(),
-                                    "Json parsing error: " + e.getMessage(),
-                                    Toast.LENGTH_LONG).show();
-                        }
-                    });
-
-                }
-
-            } else {
-                Log.e(TAG, "Couldn't get json from server.");
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(getApplicationContext(),
-                                "Couldn't get json from server. Check LogCat for possible errors!",
-                                Toast.LENGTH_LONG).show();
-                    }
-                });
-            }
-
-            return null;
-        }*/
-
         @Override
         protected Void doInBackground(Void... arg0) {
             HttpHandler sh = new HttpHandler();
-//            String myUrl = "http://www.omdbapi.com/?t=london";
             String myUrl = myURL;
             String jsonStr = sh.makeServiceCall(myUrl);
             Log.e(TAG, "Response from url: " + jsonStr);
@@ -155,42 +83,20 @@ public class MainActivity extends AppCompatActivity {
             if (jsonStr != null) {
                 try {
 
-
-                   /* JSONObject jsonObject = new JSONObject(jsonStr);
-                    JSONArray results= jsonObject.getJSONArray("results");
-                    String title = jsonObject.getString("Title");
-                    int year = jsonObject.getInt("Year");
-                    String released = jsonObject.getString("Released");
-                    String genre = jsonObject.getString("Genre");
-                    String poster = jsonObject.getString("Poster");
-                    HashMap<String, String> contact = new HashMap<>();
-                    contact.put("poster", poster);
-                    contact.put("title", title);
-                    contact.put("year", String.valueOf(year));
-                    contact.put("released", released);
-                    contact.put("genre", genre);
-
-                    MyMovie movie=new MyMovie(title,poster);
-                    Movie m = new Movie(title, year, released);
-                    movieList.add(m);
-                    myMovieList.add(movie);
-
-                    contactList.add(contact);
-*//**/
                     JSONObject json = new JSONObject(jsonStr);
                     for (int i = 0; i < json.getJSONArray("results").length(); i++) {
                         JSONArray results = json.getJSONArray("results");
                         String poster = results.getJSONObject(i).getString("poster_path");
                         String title = results.getJSONObject(i).getString("original_title");
-                        String releaseDate=results.getJSONObject(i).getString("release_date");
-                        String plot=results.getJSONObject(i).getString("overview");
+                        String releaseDate = results.getJSONObject(i).getString("release_date");
+                        String plot = results.getJSONObject(i).getString("overview");
 
 
                         HashMap<String, String> contact = new HashMap<>();
                         contact.put("original_title", title);
-                        contact.put("release_date",releaseDate);
+                        contact.put("release_date", releaseDate);
                         contact.put("poster_path", poster);
-                        contact.put("overview","PLOT:\n"+plot);
+                        contact.put("overview", "PLOT:\n" + plot);
                         contactList.add(contact);
 
                         MyMovie movie = new MyMovie(title, poster);
@@ -227,8 +133,8 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
             ListAdapter adapter = new SimpleAdapter(MainActivity.this, contactList,
-                    R.layout.list_item, new String[]{"original_title","release_date","overview", "poster_path"},
-                    new int[]{R.id.title,R.id.releaseDate,R.id.plot, R.id.poster});
+                    R.layout.list_item, new String[]{"original_title", "release_date", "overview", "poster_path"},
+                    new int[]{R.id.title, R.id.releaseDate, R.id.plot, R.id.poster});
             ArrayAdapter<Movie> movieAdapter = new ArrayAdapter<>(MainActivity.this,
                     android.R.layout.simple_list_item_1,
                     movieList);
